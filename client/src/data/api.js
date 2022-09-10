@@ -5,6 +5,10 @@ const api = new Axios({
   
 })
 
+const getClients = async () => {
+    const reponse = await api.get(`graphql?query={clients{id,name}}`)
+    return reponse
+}
 
 const addClient = async (result) => {
     await api.post(`/graphql?`, JSON.stringify({
@@ -22,7 +26,7 @@ const addClient = async (result) => {
 const addProject = async ( result) => {
     await api.post(`/graphql?`, JSON.stringify({
 
-        query : `mutation { addProject(name:"${result.name}",description:"${result.description}",status:${result.status} , clientID:"${result.clientID}"){name}}`,
+        query : `mutation { addProject(name:"${result.name}",description:"${result.description}",status:${result.status} , cliendID:"${result.clientID}"){name}}`,
         variables : null
        
       })  ,{
@@ -32,4 +36,4 @@ const addProject = async ( result) => {
       } )
 }
 
-export {api , addClient , addProject}
+export {api , addClient , addProject , getClients}

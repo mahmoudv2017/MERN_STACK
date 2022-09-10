@@ -1,9 +1,29 @@
-import React from 'react';
+import React , {useEffect , useState} from 'react';
 import {Button} from 'react-bootstrap'
-import { addProject  } from '../data/api';
+import { addProject , getClients  } from '../data/api';
 
 
 function ProjetForm(props) {
+
+    const [clients , setClients] = useState(null);
+    
+
+
+    useEffect( () => {
+       async function fetchData(){return await getClients()}
+
+       
+       fetchData().then((res) => { 
+
+        const reponse = JSON.parse(res.data)
+
+        setClients(reponse.data.clients)
+
+        })
+
+    }, []);
+
+
     let submitter = async (e) => {
         e.preventDefault()
         let result = {
@@ -13,15 +33,15 @@ function ProjetForm(props) {
             clientID : e.target.client.value,
     
         }
-        console.log(result)
-       await addProject(result)
+
+        await addProject(result)
+
+        window.location.reload(false);
     }
 
     return ( 
- 
-
-       
-      <form className={'input_from ' + props.state} onSubmit={(e)=>submitter(e)}>
+        
+    <form className={'input_from ' + props.state} onSubmit={(e)=>submitter(e)}>
         <label htmlFor='name'>Name</label>
         <input type="text" name="name" id="name"/>
 
@@ -30,24 +50,27 @@ function ProjetForm(props) {
 
         <label htmlFor='clients'>Choose Client:</label>
         <select id="clients" name="client">
-            <option value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="fiat">Fiat</option>
-            <option value="audi">Audi</option>
+
+
+            {clients ? clients.map(client => {
+                return (
+                    <option key={client.id} value={client.id}>{client.name}</option>
+                )
+            }) : false}
         </select>
 
         <label htmlFor='status'>Status</label>
         <select id="status" name="status">
 
-            <option value="saab">Saab</option>
-            <option value="fiat">Fiat</option>
-            <option value="audi">Audi</option>
+            <option value="new">Just Started</option>
+            <option value="incompelete">Not Compeleted</option>
+            <option value="finished">Completed</option>
         </select>
 
         <Button className='submit-button' type='submit' variant='outline-primary'>Submit</Button>
 
      </form> 
-   
+     
   
     
     );
