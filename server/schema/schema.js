@@ -45,10 +45,32 @@ const root_query = new GraphQLObjectType({
                 return Client.find()
             }
         },
+        client : {
+            type : new GraphQLList(clientType) ,
+            args : {
+                id:{
+                    type: new GraphQLNonNull(GraphQLID) 
+                }
+            },
+            resolve(parent, args) {
+                return Client.find({_id : args.id})
+            }
+        },
         projects : {
             type : new GraphQLList(projectType),
             resolve(parent, args){
                 return Project.find()
+            }
+        },
+        project : {
+            type : new GraphQLList(projectType),
+            args : {
+                id:{
+                    type: new GraphQLNonNull(GraphQLID) 
+                }
+            },
+            resolve(parent, args){
+                return Project.find({_id : args.id})
             }
         }
     }

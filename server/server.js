@@ -6,14 +6,15 @@ const {graphqlHTTP} = require('express-graphql')
 require('dotenv').config()
 const Client = require('./models/Client')
 const {connectionDB} = require('./config/db')
+const cors = require('cors')
 
-
+app.use(cors())
 //connecting to database
 connectionDB().
 then( async () => {
 
 
-    app.listen(process.env.PORT, () => console.log(colors.blue.underline(`Server is  on ${process.env.PORT}`)) )
+    app.listen(process.env.PORT, () => console.log(colors.rainbow(`Server is  on ${process.env.PORT}`)) )
 
 })
 
