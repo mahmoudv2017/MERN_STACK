@@ -1,0 +1,92 @@
+.title{
+    text-transform: uppercase;
+    padding-top: 4rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.project_desc{
+    padding-left: 5rem;
+    margin: 2rem 0;
+    border-radius: 20px;
+    border: 1px solid black;
+    position: relative;
+
+    .status{
+        text-transform: capitalize;
+    }
+    .Capitalize{
+        text-transform: capitalize;
+    }
+    .client-info{
+        border: 1px solid grey;
+        border-radius: 15px;
+      
+        width: 80%;
+
+        hr{
+            margin: 0;
+        }
+        p{
+            margin: 0;
+            padding-left: 1rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+        }
+
+        span{
+            margin-right: 1rem;
+
+            img{
+                width: 25px;
+                height: 25px;
+            }
+        }
+    }
+
+    .sub-title{
+        margin-bottom: 1rem;
+        /* height: 4rem; */
+        margin-top: 4rem;
+       }
+    form{
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        position: relative;
+        label{
+            padding: 1rem 0;
+            text-transform: capitalize;
+        }
+
+        button{
+            width: 10rem;
+      
+            position: relative;
+            left: calc(100% - 10rem);
+            margin: 5rem 0;
+            margin-bottom: 1rem;
+            
+        }
+
+        button:last-child{
+            margin-top: .2rem;
+        }
+        input , select , textarea{
+            outline: none;
+            border-radius: 10px;
+            border: 1px solid grey;
+            padding: .5rem 1rem;
+
+            color: black;
+        }
+    }
+
+
+
+    .back_button{
+        position: absolute;
+        top: 1%;
+        left: 5rem;
+    }
+}
