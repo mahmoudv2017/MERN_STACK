@@ -1,6 +1,6 @@
 import React , {useEffect , useState } from 'react';
 import {useParams , useNavigate} from 'react-router-dom'
-import { api } from '../../data/api';
+import {useDataContext} from '../../context/context';
 import './style.scss'
 import {Button} from 'react-bootstrap'
 import user from '../../assets/user.png'
@@ -8,25 +8,60 @@ import phone from '../../assets/phone-call.png'
 import email from '../../assets/email.png'
 import back from '../../assets/back.png'
 
+const statuses_map = {
+    'Compeleted' : 'finished',
+    'Not Compeleted' : 'incompelete',
+    'Not Started' : 'new',
+}
 
 function PDP() {
 
     const {id} = useParams()
     const [project,setProject] = useState(null);
     const nav = useNavigate() 
-
+    const context = useDataContext()
+    const [status , setStatus] = useState('incompelete')
 
     useEffect(() => {
         async function get_Project(){
-            let reponse = await api.get(`/graphql?query={project(id:"${id}"){name,description,status,client{name,email,phone}}}`)
+            let reponse = await context.getCLient(id)
             reponse = JSON.parse(reponse.data)
+            setStatus(reponse.data.project[0].status)
             setProject(reponse.data.project[0])
 
         }
 
         get_Project()
-    } , [id])
+    } , [context , id])
 
+    let delete_project = async () => {
+
+        await context.removeProject(id)
+        window.location.replace('/')
+    }
+
+
+    let update_project = async (e) => {
+        
+    
+
+        e.preventDefault()
+
+        const result = {
+            id: id,
+            name : e.target.name.value || project.name,
+            description : e.target.description.value || project.description,
+            status : e.target.status.value
+            
+        }
+
+        console.log(result)
+
+        await context.updateProject(result)
+
+        window.location.replace('/')
+        
+    }
     
     return ( 
         <div className='project_desc'>
@@ -58,7 +93,7 @@ function PDP() {
 
                     <h1 className='sub-title'>Update Project Details</h1>
 
-                    <form action="" method="post">
+                    <form method="post" onSubmit={(e) => update_project(e)}>
                         <label htmlFor="name">Name</label>
                         <input type="text" name="name" id='name' placeholder={project.name} />
 
@@ -67,17 +102,16 @@ function PDP() {
 
 
                         <label htmlFor='status'>Status</label>
-                        <select id="status" name="status">
+                        <select id="status" name="status" value={statuses_map[status]} onChange={e => setStatus(e.target.value)}>
 
                             <option value="new">Not Started</option>
-                            <option value="incompelete">Not Compeleted</option>
-                            <option value="finished">Compeleted</option>
+                            <option value="incompelete" >Not Compeleted</option>
+                            <option value="finished" >Compeleted</option>
                         </select>
-                        {/* <label htmlFor="status">status</label>
-                        <input type="selec" name="name" id='name' placeholder={project.name} /> */}
 
-                        <Button variant='outline-primary' type='submit' >Update Project</Button>
-                        <Button  variant='outline-danger'> Delete Project </Button>
+
+                        <Button variant='outline-primary'  type='submit' >Update Project</Button>
+                        <Button  variant='outline-danger' onClick={delete_project}> Delete Project </Button>
 
                     </form>
                 </>

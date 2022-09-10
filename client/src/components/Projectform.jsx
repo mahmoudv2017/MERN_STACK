@@ -1,16 +1,17 @@
-import React , {useEffect , useState} from 'react';
+import React , {useEffect , useState } from 'react';
 import {Button} from 'react-bootstrap'
-import { addProject , getClients  } from '../data/api';
+import {useDataContext} from '../context/context'
+
 
 
 function ProjetForm(props) {
 
     const [clients , setClients] = useState(null);
     
-
+    const DataContext = useDataContext()
 
     useEffect( () => {
-       async function fetchData(){return await getClients()}
+       async function fetchData(){return await DataContext.getClients()}
 
        
        fetchData().then((res) => { 
@@ -21,7 +22,7 @@ function ProjetForm(props) {
 
         })
 
-    }, []);
+    }, [DataContext]);
 
 
     let submitter = async (e) => {
@@ -34,7 +35,7 @@ function ProjetForm(props) {
     
         }
 
-        await addProject(result)
+        await DataContext.addProject(result)
 
         window.location.reload(false);
     }

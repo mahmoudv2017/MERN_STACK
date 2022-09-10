@@ -26,6 +26,7 @@
         color: black;
         min-height: 100%;
         font-weight: bold;
+        word-break: break-word;
         font-size: 1.2rem;
         display: flex;
         align-items: center;
@@ -38,10 +39,10 @@
     }
 
     .date{
-        text-align: center;
+        justify-content: center;
     }
     .status{
-        text-align: center;
+        justify-content: center;
     }
     .red{
         background-color: rgb(218, 122, 122);

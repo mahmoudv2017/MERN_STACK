@@ -1,8 +1,10 @@
 import React from 'react';
 import {Button} from 'react-bootstrap'
-import { addClient } from '../data/api';
+import { useDataContext } from '../context/context'
+
 
 function UserForm(props) {
+    const DataContext = useDataContext()
 
     let submitter = async (e) => {
         e.preventDefault()
@@ -12,7 +14,7 @@ function UserForm(props) {
             phone : e.target.phone.value,
         }
 
-       await addClient(result)
+       await DataContext.addClient(result)
 
 
     }
